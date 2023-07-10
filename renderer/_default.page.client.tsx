@@ -3,6 +3,7 @@ export { render }
 import { hydrateRoot } from 'react-dom/client'
 import { PageShell } from './PageShell'
 import type { PageContextClient } from './types'
+import { GlobalStyles } from './styles'
 
 // This render() hook only supports SSR, see https://vite-plugin-ssr.com/render-modes for how to modify render() to support SPA
 async function render(pageContext: PageContextClient) {
@@ -12,9 +13,12 @@ async function render(pageContext: PageContextClient) {
   if (!root) throw new Error('DOM element #react-root not found')
   hydrateRoot(
     root,
-    <PageShell pageContext={pageContext}>
-      <Page {...pageProps} />
-    </PageShell>
+    <>
+      <GlobalStyles />
+      <PageShell pageContext={pageContext}>
+        <Page {...pageProps} />
+      </PageShell>
+    </>
   )
 }
 

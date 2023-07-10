@@ -3,7 +3,16 @@ import ssr from 'vite-plugin-ssr/plugin'
 import { UserConfig } from 'vite'
 
 const config: UserConfig = {
-  plugins: [react(), ssr()]
+  plugins: [react(), ssr()],
+  publicDir: './public/',
+  assetsInclude: ['**/*.otf'],
+  build: {
+    minify: true,
+    manifest: true
+  },
+  ssr: {
+    noExternal: ["styled-components", "@emotion/*"],
+  }
 }
 
 export default config
