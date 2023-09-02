@@ -10,13 +10,15 @@ export const Main = styled.main`
 
 export const Banner = styled.div`
   width: 100%;
-  background: url('https://via.placeholder.com/1960x566');
+  /* background: url('https://via.placeholder.com/1960x566'); */
+  background: url('/public/assets/banner.webp');
   background-repeat: no-repeat;
   height: 488px;
   display: flex;
   background-position: center center;
 
   @media (min-width: 768px) {
+
     background-size: cover;
     height: 566px;
   }
@@ -135,6 +137,14 @@ export const ItemBadge = styled.div`
   height: 170px;
   border-radius: 50%;
   background: ${({ theme }) => theme.primary.brand};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const BadgeImage = styled.img`
+  width: 90px;
+  height: 90px;
 `;
 
 export const ItemDescription = styled.p`
@@ -157,7 +167,7 @@ export const Section = styled.section`
 `;
 
 export const CTAContainer = styled.div`
-  background: url('https://via.placeholder.com/970x264');
+  background: url('/public/assets/images/banner-desktop-schedule.webp');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -169,6 +179,10 @@ export const CTAContainer = styled.div`
   height: 264px;
   margin-bottom: 64px;
   border-radius: 4px;
+
+  @media (min-width: 768px) {
+    background-position: center center;
+  }
 `;
 
 export const CTAText = styled.p`
@@ -197,9 +211,10 @@ export const AboutContainer = styled.div`
 `;
 
 export const Profile = styled.div`
-  background: url('https://via.placeholder.com/270x270');
+  /* background: url('https://via.placeholder.com/270x270'); */
+  background: url('/public/assets/images/profile.webp');
   background-size: cover;
-  background-position: center center;
+  background-position: top; /* Ajuste aqui */
   background-repeat: no-repeat;
   width: 270px;
   height: 270px;

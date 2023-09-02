@@ -4,7 +4,7 @@ import logoPrimaryUrl from './logo-primary.svg'
 
 
 type HeaderProps = {
-  scrolling: boolean;
+  scrolling: boolean | undefined;
 }
 
 export const MainHeader = styled.header<HeaderProps>`
@@ -186,6 +186,10 @@ export const NavItem = styled.a`
   svg {
     margin-right: 14px;
     font-size: 3.2rem;
+  }
+
+  &.active {
+    opacity: 0.5;
   }
 
   

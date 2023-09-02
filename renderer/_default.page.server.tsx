@@ -34,6 +34,10 @@ async function render(pageContext: PageContextServer) {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="${desc}" />
+        <link rel="apple-touch-icon" sizes="180x180" href="public/assets/favicons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="public/assets/favicons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="public/assets/favicons/favicon-16x16.png">
+
         <title>${title}</title>
         <style>${dangerouslySkipEscape(sheet.getStyleTags())}</style>
       </head>

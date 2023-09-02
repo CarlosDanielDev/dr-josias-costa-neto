@@ -10,7 +10,7 @@ const ScheduleAppointment: React.FC<ButtonProps> = (props) => {
   return (
     <Suspense fallback={<Loading />}>
 
-      <S.Button {...props} onClick={() => console.log("Agendar consulta")} >
+      <S.Button {...props}  >
         <MdWhatsapp size={22} />
         <S.ButtonText>
           Agendar Consulta

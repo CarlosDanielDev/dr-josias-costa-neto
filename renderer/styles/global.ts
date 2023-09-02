@@ -41,6 +41,7 @@ export const GlobalStyles = createGlobalStyle`
   html, body {
     min-height: 100vh;
     height: auto;
+    scroll-padding-top: 120px; 
   }
 
   html {

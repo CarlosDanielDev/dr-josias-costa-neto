@@ -3,6 +3,7 @@ import { FaLinkedin } from 'react-icons/fa';
 import { MdContentCopy, MdOutlineEmail, MdOutlineLocationOn, MdOutlinePhone } from 'react-icons/md';
 import { BiLogoInstagramAlt } from 'react-icons/bi'
 import * as S from './styles';
+import { debounce } from './components';
 
 const LazyHeader = lazy(() => import('./components/header'));
 const LazyMap = lazy(() => import('./components/map'));
@@ -10,30 +11,33 @@ const LazyScheduleAppointment = lazy(() => import('./components/schedule-appoint
 
 export { Page }
 
+
+const base_path = '/public/assets/images/procedures'
+
 const procedures = [
   {
     title: 'Implantes',
-    icon: '',
+    icon: `${base_path}/implant.webp`,
     description: 'Substitua os seus dentes ausentes por implantes dentários ou então próteses dentárias, restaurando assim a sua capacidade de voltar a mastigar firme, falar e sorrir com muita confiança e tranquilidade.',
   },
   {
     title: 'Cirurgias',
-    icon: '',
+    icon: `${base_path}/surgery.webp`,
     description: 'Resolva problemas específicos e também melhore a saúde bucal com procedimentos cirúrgicos odontológicos, como extração de sisos, enxertos ósseos e cirurgias de gengiva de forma eficiente.',
   },
   {
     title: 'Próteses',
-    icon: '',
+    icon: `${base_path}/prosthesis.webp`,
     description: 'Recupere seu sorriso com próteses personalizadas que podem ser fixas ou removíveis. Projetadas para se adaptarem perfeitamente à sua boca, proporcionando muito mais conforto e segurança.',
   },
   {
     title: 'Facetas',
-    icon: '',
+    icon: `${base_path}/facet.webp`,
     description: 'Tenha um novo sorriso brilhante, harmonioso e natural com facetas que são colocadas sobre os dentes para corrigirem as imperfeições estéticas dentárias como manchas, desalinhamentos e espaçamentos.',
   },
   {
     title: 'Clínico Geral',
-    icon: '',
+    icon: `${base_path}/general.webp`,
     description: 'Realize limpezas, restaurações, avaliações de rotina e tratamentos preventivos. Nosso objetivo é manter sua saúde bucal em dia e garantir um sorriso radiante e saudável ao longo da vida.',
   },
 ]
@@ -41,11 +45,28 @@ const procedures = [
 function Page() {
   const [scrollPosition, setScrollPosition] = useState<number>(0)
   const currentDate = new Date().getFullYear();
+  const phoneNumber = '11949829111';
+  const whatsappText = 'Olá! Vi seu site e estou interessado(a) em saber mais sobre os serviços odontológicos que você oferece. Pode me ajudar?';
 
-  function handleScroll() {
+  const condition = scrollPosition > 50;
+  const whatsppLink = `https://wa.me/${phoneNumber}?text=${whatsappText}`
+
+  const handleScroll = debounce(() => {
     const position = window.scrollY;
-
     setScrollPosition(position);
+  }, 50);
+
+  async function copyToClipboard(text: string): Promise<void> {
+    try {
+      await navigator.clipboard.writeText(text);
+      console.log('Texto copiado com sucesso!');
+    } catch (err) {
+      console.error('Falha ao copiar o texto: ', err);
+    }
+  }
+
+  function redirectToUrl(url: string): void {
+    window.location.href = url;
   }
 
 
@@ -61,8 +82,9 @@ function Page() {
   return (
     <S.Wrapper>
       <S.Main>
-        <S.Banner>
-          <LazyHeader scrolling={scrollPosition > 50 && true} />
+        <S.Banner id="init">
+          <LazyHeader scrolling={condition} />
+
           <S.BannerContent>
             <S.BannerTitle>
               Cuidando da função à estética,
@@ -72,9 +94,10 @@ function Page() {
               Tratamentos odontológicos personalizados,
               focado no que você realmente precisa.
             </S.BannerSubtitle>
-            <LazyScheduleAppointment />
+            <LazyScheduleAppointment onClick={() => redirectToUrl(whatsppLink)} />
           </S.BannerContent>
         </S.Banner>
+
         <S.ProceduresContainer>
           <S.ProcedureDisclaimer>
             Um sorriso saudável não apenas ilumina o seu rosto,
@@ -84,11 +107,13 @@ function Page() {
             da sua saúde bucal, proporcionando resultados
             incríveis e um atendimento acolhedor.
           </S.ProcedureDisclaimer>
-          <S.ProceduesTitle>Procedimentos</S.ProceduesTitle>
+          <S.ProceduesTitle id="procedures">Procedimentos</S.ProceduesTitle>
           <S.List>
             {procedures.map(item => (
               <S.Item key={item.title}>
-                <S.ItemBadge />
+                <S.ItemBadge>
+                  <S.BadgeImage src={item.icon} />
+                </S.ItemBadge>
                 <S.ItemTitle>{item.title}</S.ItemTitle>
                 <S.ItemDescription>{item.description}</S.ItemDescription>
               </S.Item>
@@ -106,7 +131,7 @@ function Page() {
         </S.Section>
         <S.Section>
           <S.AboutContainer>
-            <S.Profile />
+            <S.Profile id="about" title="Foto do josias" />
             <S.AboutContent>
               <S.AboutContentTitle>
                 Sobre mim
@@ -120,7 +145,7 @@ function Page() {
             </S.AboutContent>
           </S.AboutContainer>
         </S.Section>
-        <S.ContactContainer>
+        <S.ContactContainer id="contact">
           <S.ContactInfoContainer>
             <S.AboutContentTitle>
               Contato
@@ -141,15 +166,15 @@ function Page() {
               </S.ContactInfoLabel>
             </S.ContactInfo>
 
-            <S.ContactInfoValueButton>
+            <S.ContactInfoValueButton onClick={() => copyToClipboard('11949829111')}>
               <S.ContactInfoValue>
                 (11) 94982-9111
               </S.ContactInfoValue>
               <MdContentCopy />
             </S.ContactInfoValueButton>
-            <S.ContactInfoValueButton>
+            <S.ContactInfoValueButton onClick={() => copyToClipboard('11965301321')}>
               <S.ContactInfoValue>
-                (99) 99999-9999
+                (11) 96530-1321
               </S.ContactInfoValue>
               <MdContentCopy />
             </S.ContactInfoValueButton>
@@ -160,7 +185,7 @@ function Page() {
                 E-mail
               </S.ContactInfoLabel>
             </S.ContactInfo>
-            <S.ContactInfoValueButton>
+            <S.ContactInfoValueButton onClick={() => copyToClipboard('drjosiascostaneto@gmail.com')}>
               <S.ContactInfoValue>
                 drjosiascostaneto@gmail.com
               </S.ContactInfoValue>
@@ -174,8 +199,10 @@ function Page() {
               </S.ContactInfoLabel>
             </S.ContactInfo>
 
-            <S.ContactInfoValueButton>
-              <S.ContactInfoValue className="address">
+            <S.ContactInfoValueButton onClick={() => copyToClipboard(`Edifício São Paulo Office — 6° andar,
+                sala 62. R.Frei Caneca, 33.
+                São Paulo / SP. 01307 - 00.`)}>
+              < S.ContactInfoValue className="address" >
                 Edifício São Paulo Office — 6° andar,
                 sala 62. R. Frei Caneca, 33.
                 São Paulo/SP. 01307-00.
@@ -185,12 +212,12 @@ function Page() {
           </S.ContactInfoContainer>
           <LazyMap />
         </S.ContactContainer>
-      </S.Main>
+      </S.Main >
       <S.Footer>
         <S.FooterContent>
           <S.FooterMainContent>
             <S.FooterLogo />
-            <LazyScheduleAppointment className="outline" />
+            <LazyScheduleAppointment onClick={() => redirectToUrl(whatsppLink)} className="outline" />
             <S.Ul>
               <S.Li>
                 <S.ArrowRight />
@@ -224,6 +251,6 @@ function Page() {
           </S.BottomInfoContainer>
         </S.FooterContent>
       </S.Footer>
-    </S.Wrapper>
+    </S.Wrapper >
   )
 }
