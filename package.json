@@ -8,7 +8,7 @@
     "start": "npm run build && npm run server",
     "server:prod": "cross-env NODE_ENV=production ts-node ./server/index.ts",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
+    "deploy": "gh-pages -d dist/client",
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
